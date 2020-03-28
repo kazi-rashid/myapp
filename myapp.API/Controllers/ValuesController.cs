@@ -32,6 +32,8 @@ namespace MyApp.API.Controllers
         public async Task<IActionResult> GetValue(int id)
         {
             var value = await _context.Values.FirstOrDefaultAsync(x => x.Id == id); 
+
+            // var client = await _context.Clients.FirstOrDefaultAsync()
             return Ok(value);
         }
 
