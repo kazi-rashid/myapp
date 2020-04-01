@@ -15,6 +15,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using myapp.API.Data;
+using Microsoft.AspNetCore.Diagnostics;
+using System.Net;
+using Microsoft.AspNetCore.Http;
+using myapp.API.Helpers;
 
 namespace myapp.API
 {
@@ -56,12 +60,27 @@ namespace myapp.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler(builer => {
+                    builer.Run(async context => {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    var error = context.Features.Get<IExceptionHandlerFeature>();
+
+                    if (error != null)
+                    {
+                        context.Response.AddApplicationError(error.Error.Message);
+                        await context.Response.WriteAsync(error.Error.Message);
+                    }
+                });
+                });
+            }
 
             // app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()); 
             app.UseAuthentication();
 
             app.UseAuthorization();
