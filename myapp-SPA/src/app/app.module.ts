@@ -6,14 +6,17 @@ import { BsDropdownModule } from 'ngx-bootstrap';
 // import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
-
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { AuthService } from './_service/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_service/error,interceptor';
+import { ListsComponent } from './lists/lists.component';
+import { MessagesComponent } from './messages/messages.component';
+import { MemberListComponent } from './member-list/member-list.component';
+import { RouterModule } from '@angular/router';
+import { appRoutes } from './routes';
 
 
 
@@ -22,17 +25,22 @@ import { ErrorInterceptorProvider } from './_service/error,interceptor';
       AppComponent,
       NavComponent,
       HomeComponent,
-      RegisterComponent
+      RegisterComponent,
+      ListsComponent,
+      MessagesComponent,
+      MemberListComponent
    ],
    imports: [
-	   BrowserModule,
-	   HttpClientModule,
-      FormsModule,
-      BsDropdownModule.forRoot(),
-      BrowserAnimationsModule
+	 BrowserModule,
+	 HttpClientModule,
+	 FormsModule,
+	 BsDropdownModule.forRoot(),
+    BrowserAnimationsModule,
+    RouterModule.forRoot(appRoutes)
 	],
    providers: [
-      ErrorInterceptorProvider, AuthService
+      ErrorInterceptorProvider,
+      AuthService
    ],
    bootstrap: [
       AppComponent
